@@ -137,6 +137,13 @@ export default {
     }
   },
   created() {
+    fetch("http://169.254.169.254/latest/meta-data/placement/availability-zone").then((response) => {
+      response.text().then((responseString) => {
+        alert("[Current Region Code]", responseString)
+      })
+    }).catch((error) => {
+      alert("[ERROR]", error)
+    });
     this.loadItems()
   }
 }
