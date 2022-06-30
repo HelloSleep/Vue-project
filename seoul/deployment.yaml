@@ -13,7 +13,7 @@ spec:
         run: nginx
     spec:
       containers:
-      - image: nginx
+      - image: ellisjoe611/grooming
         name: nginx
         ports:
         - containerPort: 80
