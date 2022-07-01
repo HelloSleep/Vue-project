@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test
+  name: seoul
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: test
+      run: seoul
   template:
     metadata:
       labels:
-        run: test
+        run: seoul
     spec:
       containers:
       - image: ellisjoe611/grooming
-        name: test
+        name: seoul
         ports:
         - containerPort: 80
