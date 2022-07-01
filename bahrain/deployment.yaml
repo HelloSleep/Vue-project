@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bahrain
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: bahrain
+  template:
+    metadata:
+      labels:
+        run: bahrain
+    spec:
+      containers:
+      - image: ellisjoe611/grooming
+        name: bahrain
+        ports:
+        - containerPort: 80
