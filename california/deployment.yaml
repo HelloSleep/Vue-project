@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: california
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: california
+  template:
+    metadata:
+      labels:
+        run: california
+    spec:
+      containers:
+      - image: ellisjoe611/grooming
+        name: california
+        ports:
+        - containerPort: 80
