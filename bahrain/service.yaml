@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bahrain
+  name: paris
 spec:
   ports:
   - port: 80
     protocol: TCP
     targetPort: 80
   selector:
-    run: bahrain
+    run: paris
   type: LoadBalancer
