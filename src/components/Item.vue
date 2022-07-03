@@ -1,5 +1,5 @@
 <template>
-    <div :class="[item.is_banned ? 'banned' : '', 'item']">
+    <div :class="[item.is_banned == 1 ? 'banned' : '', 'item']">
         <h3 @dblclick="$emit('edit-item', item)">
             {{ item.item_nm }} [{{ item.item_cd }}]
             <i class="fas fa-times" @click="$emit('delete-item', item.item_cd)"></i>

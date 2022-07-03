@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-cloak>
-    <Header title="물품 목록" @change-mode="changeMode" :isFormShown="isFormShown" />
+    <Header :title="`물품 목록 [${this.region_cd}]`" @change-mode="changeMode" :isFormShown="isFormShown" />
     <div v-show="isFormShown">
       <ItemForm @add-item="addItem" />
     </div>
@@ -9,8 +9,7 @@
     </div>
     <div id="footer" v-show="!isFormShown" style="margin-top: 30px;">
       <div v-if="areItemsLoaded">
-        <button class="btn" style="display: block; background-color: orange; margin: auto;"
-          v-on:click="loadItems">MORE</button>
+        <button class="btn" style="display: block; background-color: orange; margin: auto;" v-on:click="loadItems">MORE</button>
       </div>
       <div v-else>
         <img src="./assets/loading.gif" alt="Loading..." style="display: block; margin: auto; width: 30%; height: 30%;">
@@ -33,6 +32,7 @@ export default {
   },
   data() {
     return {
+      region_cd: '',
       items: [],
       isFormShown: false,
       areItemsLoaded: false,
@@ -45,109 +45,97 @@ export default {
     changeMode() {
       this.isFormShown = !this.isFormShown
     },
-    loadItems() {
+
+    async fetchData(url_path, options) {
+      const res = await fetch(`http://127.0.0.1:3000/api/${url_path}`, options)
+      const response = await res.json()
+      if (!response.ok){
+        console.log(`[${url_path}] 데이터 불러오기 실패...\n${response.message}\n`)
+      }
+      return response.data || null
+    },
+
+    async fetchResponse(url_path, options) {
+      const res = await fetch(`http://127.0.0.1:3000/api/${url_path}`, options)
+      const response = await res.json()
+      return response
+    },
+
+    async loadItems() {
       this.areItemsLoaded = false
-      setTimeout(() => {
-        this.items.push(
-          {
-            nation_cd: 'KR',
-            item_cd: 'KR-1',
-            item_nm: '품목01',
-            region_cd: 'ap-northeast-2',
-            cat_mst_cd: 'electronic',
-            cat_mst_nm: '전자제품',
-            cat_dtl_cd: 'tv',
-            cat_dtl_nm: 'TV',
-            company_nm: 'company',
-            imported_from: 'CN',
-            quantity: 3,
-            is_banned: false
-          },
-          {
-            nation_cd: 'KR',
-            item_cd: 'KR-2',
-            item_nm: '품목01',
-            region_cd: 'ap-northeast-2',
-            cat_mst_cd: 'electronic',
-            cat_mst_nm: '전자제품',
-            cat_dtl_cd: 'tv',
-            cat_dtl_nm: 'TV',
-            company_nm: 'company',
-            imported_from: 'CN',
-            quantity: 3,
-            is_banned: false
-          },
-          {
-            nation_cd: 'US',
-            item_cd: 'US-1',
-            item_nm: '품목02',
-            region_cd: 'us-west-1',
-            cat_mst_cd: 'electronic',
-            cat_mst_nm: '전자제품',
-            cat_dtl_cd: 'tv',
-            cat_dtl_nm: 'TV',
-            company_nm: 'company',
-            imported_from: 'CN',
-            quantity: 3,
-            is_banned: false
-          },
-          {
-            nation_cd: 'EG',
-            item_cd: 'EG-1',
-            item_nm: '품목03',
-            region_cd: 'me-south-1',
-            cat_mst_cd: 'meat',
-            cat_mst_nm: '전자제품',
-            cat_dtl_cd: 'pork',
-            cat_dtl_nm: '돼지고기',
-            company_nm: 'company',
-            imported_from: 'AU',
-            quantity: 3,
-            is_banned: true
-          }
-        )
-        this.areItemsLoaded = true
-      }, 3000);
-
+      this.items = await this.fetchData(`items/${this.region_cd}`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      this.areItemsLoaded = true
     },
-    addItem(item) {
-      console.log(item)
-      // DB 과정
 
-      this.items.push(item)
+    async addItem(newItem) {
+      newItem.region_cd = this.region_cd
+
+      const response = await this.fetchResponse(`items/${this.region_cd}`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItem)
+      })
+      if (!response.ok) {
+        alert("품목 추가 실패...\n", response.message)
+      } else {
+        this.changeMode()
+        await this.loadItems()
+      }
     },
+
     editItem(item) {
       console.log("Editing item >> ", item)
-
       // 입력 창으로 보내기
     },
-    deleteItem(item_cd) {
+
+    async deleteItem(item_cd) {
       console.log("Deleting item >> ", item_cd)
 
       // 성공 시 화면에서 삭제
       if (confirm(`물품번호 [${item_cd}] 을(를) 삭제할까요?`)) {
-        // DB 과정
-
-        // 다시 로드하기
-        // 아래는 임시임...
-        this.items = this.items.filter((item, index, array) => {
-          return item.item_cd !== item_cd
+        const response = await this.fetchResponse(`items/${this.region_cd}`, {
+          method: 'DELETE',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({item_cd: item_cd})
         })
+        if (!response.ok) {
+          alert("품목 삭제 실패...\n", response.message)
+        } else {
+          this.items = this.items.filter((item, index, array) => {
+            return item.item_cd !== item_cd
+          })
+        }
       }
     }
   },
-  created() {
-    fetch("http://169.254.169.254/latest/meta-data/placement/availability-zone", {
-      method: 'GET'
+  async created() {
+    // 지역 정보 불러오기
+    this.region_cd = await this.fetchData(`region`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
-    .then((res) => res.json)
-    .then((response) => {
-      alert("[Current Region Code]", response)
-    })
-    .catch((error) => {
-      alert("[ERROR]", error)
-    });
-    this.loadItems()
+
+    // 아이템 불러오기
+    await this.loadItems()
   }
 }
 </script>
