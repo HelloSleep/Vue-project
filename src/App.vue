@@ -9,7 +9,7 @@
     </div>
     <div id="footer" v-show="!isFormShown" style="margin-top: 30px;">
       <div v-if="areItemsLoaded">
-        <button class="btn" style="display: block; background-color: orange; margin: auto;" v-on:click="loadItems">MORE</button>
+        <button class="btn" style="display: block; background-color: orange; margin: auto;" v-on:click="loadItems">REFRESH</button>
       </div>
       <div v-else>
         <img src="./assets/loading.gif" alt="Loading..." style="display: block; margin: auto; width: 30%; height: 30%;">

@@ -186,6 +186,9 @@ export default {
             }
             
             this.$emit('add-item', newItem)
+            this.$nextTick(() => {
+                this.resetForm()
+            })
         }
     },
     emits: ['add-item'],
