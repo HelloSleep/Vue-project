@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bahrain
+  name: paris
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: bahrain
+      run: paris
   template:
     metadata:
       labels:
-        run: bahrain
+        run: paris
     spec:
       containers:
       - image: ellisjoe611/grooming
-        name: bahrain
+        name: paris
         ports:
         - containerPort: 80
