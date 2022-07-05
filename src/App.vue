@@ -47,7 +47,7 @@ export default {
     },
 
     async fetchData(url_path, options) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}${url_path}`, options)
+      const res = await fetch([process.env.VUE_APP_API_URL, url_path].join(''), options)
       const response = await res.json()
       if (!response.ok){
         console.log(`[${url_path}] 데이터 불러오기 실패...\n${response.message}\n`)
@@ -56,7 +56,7 @@ export default {
     },
 
     async fetchResponse(url_path, options) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}${url_path}`, options)
+      const res = await fetch([process.env.VUE_APP_API_URL, url_path].join(''), options)
       const response = await res.json()
       return response
     },
