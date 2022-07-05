@@ -56,7 +56,7 @@ export default {
     },
 
     async fetchResponse(url_path, options) {
-      const res = await fetch(`http://127.0.0.1:3000/api/${url_path}`, options)
+      const res = await fetch(`${process.env.VUE_APP_API_URL}${url_path}`, options)
       const response = await res.json()
       return response
     },
