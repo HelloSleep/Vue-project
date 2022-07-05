@@ -17,20 +17,4 @@ spec:
         name: seoul
         ports:
         - containerPort: 80
-metadata:
-  name: express
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      run: express
-  template:
-    metadata:
-      labels:
-        run: express
-    spec:
-      containers:
-      - image: ellisjoe611/grooming_express
-        name: express
-        ports:
-        - containerPort: 3000
+
