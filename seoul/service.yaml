@@ -15,5 +15,5 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    run: seoul,express
+    run: seoul
   type: LoadBalancer
