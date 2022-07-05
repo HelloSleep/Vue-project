@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,4 +17,4 @@ spec:
       - image: ellisjoe611/grooming
         name: seoul
         ports:
-        - containerPort: 80
+        - containerPort: 80 
