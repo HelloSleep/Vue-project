@@ -5,7 +5,7 @@ COPY package.json .
 RUN npm install
 COPY . .
 
-RUN chmod +x ./init_env.sh
+RUN chmod +x init_env.sh
 RUN ./init_env.sh
 
 RUN npm run build
