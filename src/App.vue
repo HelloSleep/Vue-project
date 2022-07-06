@@ -67,7 +67,6 @@ export default {
         method: 'GET',
         mode: 'cors',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
       })
@@ -81,7 +80,6 @@ export default {
         method: 'POST',
         mode: 'cors',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newItem)
@@ -108,7 +106,6 @@ export default {
           method: 'DELETE',
           mode: 'cors',
           headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({item_cd: item_cd})
@@ -130,7 +127,6 @@ export default {
       method: 'GET',
       mode: 'cors',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     })

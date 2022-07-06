@@ -1,8 +1,8 @@
 #!/bin/bash
-PUBLIC_HOSTNAME=$(curl http://169.254.169.254/latest/meta-data/local-hostname)
+PUBLIC_HOSTNAME=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
 echo "PUBLIC_HOSTNAME=$PUBLIC_HOSTNAME" > .env
 
-PUBLIC_IPV4=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+PUBLIC_IPV4=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
 echo "PUBLIC_IPV4=$PUBLIC_IPV4" >> .env
 
 echo "VUE_APP_API_URL=http://${PUBLIC_HOSTNAME}:3000/api/" >> .env
