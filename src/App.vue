@@ -124,6 +124,7 @@ export default {
     }
   },
   async created() {
+    console.log(process.env)
     // 지역 정보 불러오기
     this.region_cd = await this.fetchData(`region`, {
       method: 'GET',
